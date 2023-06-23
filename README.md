@@ -5,7 +5,7 @@ Image tag matches dotnet runtime version.
 
 ## How to use
 ```bash
-docker run --rm -it -v /stripe/upload/coredump:/tmp/coredump 6opuc/lldb-netcore
+docker run --rm -it -v /stripe/upload/coredump:/tmp/coredump giammin/lldb-netcore
 ```
 - /stripe/upload/coredump - Path to coredump of crashed process on docker host machine
 
@@ -30,7 +30,7 @@ example output:
 
 3. Open coredump with debugger:
 ```bash
-docker run --rm -it -v /tmp/app/core.26939:/tmp/coredump 6opuc/lldb-netcore
+docker run --rm -it -v /tmp/app/core.26939:/tmp/coredump giammin/lldb-netcore
 ```
 example output:
 ```
@@ -60,7 +60,7 @@ help
 
 2. Run container with createdump utility(it needs sys_admin and sys_ptrace privileges. If your running container already has these privileges you can attach to running container and run createdump utility from there):
 ```bash
-docker run --rm -it --cap-add sys_admin --cap-add sys_ptrace --net=container:b5063ef5787c --pid=container:b5063ef5787c -v /tmp:/tmp 6opuc/lldb-netcore /bin/bash
+docker run --rm -it --cap-add sys_admin --cap-add sys_ptrace --net=container:b5063ef5787c --pid=container:b5063ef5787c -v /tmp:/tmp giammin/lldb-netcore /bin/bash
 ```
 - b5063ef5787c - id of container you need to analyze
 - /tmp - temporary directory on host, where coredump will be created
@@ -80,7 +80,7 @@ exit
 
 5. Open coredump with debugger:
 ```bash
-docker run --rm -it -v /tmp/coredump:/tmp/coredump 6opuc/lldb-netcore
+docker run --rm -it -v /tmp/coredump:/tmp/coredump giammin/lldb-netcore
 ```
 example output:
 ```
@@ -98,37 +98,13 @@ help
 ```
 
 ## How to build
-### netcore 2.2.3:
-```bash
-docker build \
-	--tag 6opuc/lldb-netcore:2.2.3 \
-   	--build-arg BASE_IMAGE=mcr.microsoft.com/dotnet/core/sdk:2.2.105 \
-   	--build-arg CORECLR_BRANCH=v2.2.3 \
-	.
-```
-### netcore 2.2.2:
-```bash
-docker build \
-	--tag 6opuc/lldb-netcore:2.2.2 \
-   	--build-arg BASE_IMAGE=mcr.microsoft.com/dotnet/core/sdk:2.2.104 \
-   	--build-arg CORECLR_BRANCH=v2.2.2 \
-	.
-```
-### netcore 2.1.8:
-```bash
-docker build \
-	--tag 6opuc/lldb-netcore:2.1.8 \
-	--build-arg BASE_IMAGE=mcr.microsoft.com/dotnet/core/sdk:2.1.504 \
-   	--build-arg CORECLR_BRANCH=v2.1.8 \
-	.
-```
-### netcore 2.0.3:
+### net 7.0.8:
 ```
 docker build \
-	--tag 6opuc/lldb-netcore:2.0.3 \
-	--build-arg BASE_IMAGE=microsoft/dotnet:2.0.3-sdk \
-	--build-arg CORECLR_BRANCH=v2.0.3 \
+	--tag giammin/lldb-netcore:7.0.8 \
+	--build-arg BASE_IMAGE=mcr.microsoft.com/dotnet/sdk:7.0 \
+	--build-arg CORECLR_BRANCH=v7.0.8 \
 	.
 ```
 - BASE_IMAGE - Base image of dotnet sdk. Used both at build time and runtime.
-- CORECLR_BRANCH - coreclr repository(https://github.com/dotnet/coreclr.git) branch/tag to build SOS plugin from
+- CORECLR_BRANCH - coreclr repository(https://github.com/dotnet/runtime.git) branch/tag to build SOS plugin from
