@@ -1,6 +1,6 @@
-ARG BASE_IMAGE=mcr.microsoft.com/dotnet/core/sdk:2.2.207
+ARG BASE_IMAGE=mcr.microsoft.com/dotnet/sdk:7.0
 FROM $BASE_IMAGE AS build
-ARG CORECLR_BRANCH=v2.2.8
+ARG CORECLR_BRANCH=v7.0.8
 RUN apt-get update && \
 	apt-get install -y \
 		cmake \
@@ -19,7 +19,7 @@ RUN apt-get update && \
 		libnuma-dev \
 		libkrb5-dev \
 		git && \
-	git clone https://github.com/dotnet/coreclr.git /coreclr
+	git clone https://github.com/dotnet/runtime.git /coreclr
 WORKDIR /coreclr
 RUN git checkout $CORECLR_BRANCH
 COPY patches /patches
