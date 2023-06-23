@@ -16,13 +16,14 @@ RUN apt update && \
 		uuid-dev \
 		libnuma-dev \
 		libkrb5-dev \
+        zlib1g-dev \
 		git && \
 	git clone https://github.com/dotnet/runtime.git /coreclr
 WORKDIR /coreclr
 RUN git checkout $CORECLR_BRANCH
 COPY patches /patches
 RUN if [ -f /patches/$CORECLR_BRANCH.patch ] ; then git apply /patches/$CORECLR_BRANCH.patch ; fi
-RUN ./build.sh clang16.0 
+RUN ./build.sh 
 
 FROM $BASE_IMAGE
 RUN apt-get update && \
