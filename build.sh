@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 docker build \
-	--tag 6opuc/lldb-netcore \
-	--build-arg BASE_IMAGE=mcr.microsoft.com/dotnet/core/sdk:2.2.207 \
-    --build-arg CORECLR_BRANCH=v2.2.8 \
+	--tag giammin/lldb-netcore \
+	--build-arg BASE_IMAGE=mcr.microsoft.com/dotnet/sdk:7.0 \
+    --build-arg CORECLR_BRANCH=v7.0.8 \
 	.
