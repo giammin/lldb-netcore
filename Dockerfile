@@ -2,6 +2,8 @@ ARG BASE_IMAGE=mcr.microsoft.com/dotnet/sdk:7.0
 FROM $BASE_IMAGE AS build
 ARG CORECLR_BRANCH=v7.0.8
 RUN apt update && \
+    apt install -y locales && \
+    locale-gen en_US.UTF-8 && \
     apt install -y cmake lsb-release wget software-properties-common gnupg && \
     bash -c "$(wget -O - https://apt.llvm.org/llvm.sh)" && \
    	apt-get install -y \
