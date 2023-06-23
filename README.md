@@ -12,10 +12,10 @@ docker run --rm -it -v /stripe/upload/coredump:/tmp/coredump giammin/lldb-netcor
 ## Usecases
 
 
-1. [Process hang with idle CPU](https://github.com/giammin/lldb-netcore-use-cases/blob/master/hang_cpu_idle.md)
-2. [Process hang with high CPU usage](https://github.com/giammin/lldb-netcore-use-cases/blob/master/hang_cpu_high.md)
-3. [Process crash](https://github.com/giammin/lldb-netcore-use-cases/blob/master/crash.md)
-4. [Excessive memory usage](https://github.com/giammin/lldb-netcore-use-cases/blob/master/memory.md)
+1. [Process hang with idle CPU](https://github.com/giammin/lldb-netcore/blob/master/hang_cpu_idle.md)
+2. [Process hang with high CPU usage](https://github.com/giammin/lldb-netcore/blob/master/hang_cpu_high.md)
+3. [Process crash](https://github.com/giammin/lldb-netcore/blob/master/crash.md)
+4. [Excessive memory usage](https://github.com/giammin/lldb-netcore/blob/master/memory.md)
 
 
 ### Container crashed
