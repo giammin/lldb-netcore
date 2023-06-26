@@ -2,17 +2,6 @@
 Our dockerized dotnet application hangs and we don't know why.
 We know, that process is idle(CPU usage near 0%).
 
-## Steps to reproduce
-1. Run test app:
-```bash
-docker run -it 6opuc/lldb-netcore-use-cases InfiniteWait
-```
-
-2. Check, that our app is idle(%CPU=~0.0):
-```bash
-top -c -p $(pgrep -d',' -f dotnet)
-```
-
 ## Steps to analyze
 1. Get id of container with our application(dotnet Runner.dll ...):
 ```bash
@@ -27,7 +16,7 @@ docker run --rm -it \
 	--net=container:501ed06f7844 \
 	--pid=container:501ed06f7844 \
 	-v /tmp:/tmp \
-	6opuc/lldb-netcore \
+	giammin/lldb-netcore \
 	/bin/bash
 ```
 where 501ed06f7844 is id of container with our application.
@@ -47,7 +36,7 @@ Where 1 is PID of dotnet process
 
 5. Open coredump with debugger:
 ```bash
-docker run --rm -it -v /tmp/coredump:/tmp/coredump 6opuc/lldb-netcore
+docker run --rm -it -v /tmp/coredump:/tmp/coredump giammin/lldb-netcore
 ```
 
 6. Print main thread(selected by default) stack trace using command: `clrstack`
@@ -80,7 +69,7 @@ Thread   8
 ```
 We see from stack trace, that thread 8 stuck at System.Threading.Monitor.Enter
 
-8. Look at source code of our method Runner.InfiniteWait.Run: https://github.com/6opuc/lldb-netcore-use-cases/blob/master/src/Runner/InfiniteWait.cs
+8. Look at source code of our method Runner.InfiniteWait.Run: 
 ```
     var locker = new object();
     lock (locker)
@@ -98,6 +87,3 @@ We see from stack trace, that thread 8 stuck at System.Threading.Monitor.Enter
 We see, that two threads are using one object for synchronization and:
 - main thread acquired lock on object and got stuck waiting for worker thread to finish
 - worker thread got stuck waiting for main thread to release lock on the same object
-
-## TODO
-There is no `syncblk` command in current version of sosplugin for dotnet(2.2.3). It is available only in preview version. These instructions should be rewritten, when `syncblk` will be available in stable branches.

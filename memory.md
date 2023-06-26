@@ -1,17 +1,6 @@
 # Excessive memory usage
 Our dockerized dotnet application uses too much memory.
 
-## Steps to reproduce
-1. Run test app and wait for 'Ready' message:
-```bash
-docker run -it 6opuc/lldb-netcore-use-cases MemoryLeak
-```
-
-2. Check, that our app uses too much memory(REZ=~300000 KB):
-```bash
-top -c -p $(pgrep -d',' -f dotnet)
-```
-
 ## Steps to analyze
 1. Get id of container with our application(dotnet Runner.dll ...):
 ```bash
@@ -26,7 +15,7 @@ docker run --rm -it \
 	--net=container:7cc287a840cf \
 	--pid=container:7cc287a840cf \
 	-v /tmp:/tmp \
-	6opuc/lldb-netcore \
+	giammin/lldb-netcore \
 	/bin/bash
 ```
 where 7cc287a840cf is id of container with our application.
@@ -46,7 +35,7 @@ Where 1 is PID of dotnet process
 
 5. Open coredump with debugger:
 ```bash
-docker run --rm -it -v /tmp/coredump:/tmp/coredump 6opuc/lldb-netcore
+docker run --rm -it -v /tmp/coredump:/tmp/coredump giammin/lldb-netcore
 ```
 
 6. Print managed heap statistics using command `dumpheap -stat`
@@ -98,7 +87,7 @@ We can find roots for other arrays the same way and we will see that all roots a
 -> our byte array
 ```
 
-9. Lets look at Runner.MemoryLeak+EventSubscriber source code https://github.com/6opuc/lldb-netcore-use-cases/blob/master/src/Runner/MemoryLeak.cs:
+9. Lets look at Runner.MemoryLeak+EventSubscriber source code 
 ```
 class MemoryLeak : ITestCase
     {

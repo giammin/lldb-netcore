@@ -2,17 +2,6 @@
 Our dockerized dotnet application hangs and we don't know why.
 We know, that process is using a lot of CPU time(CPU usage near 100% or uses 1 CPU core).
 
-## Steps to reproduce
-1. Run test app:
-```bash
-docker run -it 6opuc/lldb-netcore-use-cases InfiniteLoop
-```
-
-2. Check, that our app is using a lot of CPU time(%CPU=~100.0):
-```bash
-top -c -p $(pgrep -d',' -f dotnet)
-```
-
 ## Steps to analyze
 1. Get id of container with our application(dotnet Runner.dll ...):
 ```bash
@@ -27,7 +16,7 @@ docker run --rm -it \
 	--net=container:f827a6b79300 \
 	--pid=container:f827a6b79300 \
 	-v /tmp:/tmp \
-	6opuc/lldb-netcore \
+	giammin/lldb-netcore \
 	/bin/bash
 ```
 Where f827a6b79300 is id of container with our application.
@@ -54,7 +43,7 @@ Where 1 is PID of dotnet process
 
 6. Open coredump with debugger:
 ```bash
-docker run --rm -it -v /tmp/coredump:/tmp/coredump 6opuc/lldb-netcore
+docker run --rm -it -v /tmp/coredump:/tmp/coredump giammin/lldb-netcore
 ```
 
 7. Print list of all threads using command `thread list`.
@@ -91,7 +80,7 @@ OS Thread Id: 0x10 (9)
 ```
 We see that thread is busy somewhere inside Runner.InfiniteLoop.Run()
 
-10. Look at source code of our method Runner.InfiniteLoop.Run: https://github.com/6opuc/lldb-netcore-use-cases/blob/master/src/Runner/InfiniteLoop.cs
+10. Look at source code of our method Runner.InfiniteLoop.Run:
 ```
 var thread = new Thread(() =>
 {

@@ -1,18 +1,6 @@
 # Process crash
 Our dockerized dotnet application crashed and we don't have logs.
 
-## Steps to reproduce
-1. Run test app:
-```bash
-docker run -it \
-	--cap-add sys_ptrace \
-	-e COMPlus_DbgEnableMiniDump=1 \
-	-e COMPlus_DbgMiniDumpName=/app/coredump \
-	-e COMPlus_DbgMiniDumpType=4 \
-	6opuc/lldb-netcore-use-cases \
-	UnhandledException
-```
-
 ## Steps to analyze
 1. Get id of crashed container with our application(dotnet Runner.dll ...):
 ```bash
@@ -27,7 +15,7 @@ Where f7cc2ea3a84c is id of container with our application and /app is crashed p
 
 3. Open coredump with debugger:
 ```bash
-docker run --rm -it -v /tmp/app:/app -e COREDUMP_PATH=/app/coredump 6opuc/lldb-netcore
+docker run --rm -it -v /tmp/app:/app -e COREDUMP_PATH=/app/coredump giammin/lldb-netcore
 ```
 
 4. Print exception with command: `pe -lines`.
@@ -95,7 +83,7 @@ Fields:
 ```
 We see object property values: A=3 and B=0.
 
-7. Look at source code of our method Runner.UnhandledException.Calc: https://github.com/6opuc/lldb-netcore-use-cases/blob/master/src/Runner/UnhandledException.cs
+7. Look at source code of our method Runner.UnhandledException.Calc:
 ```
 private void Calc(Input input)
 {
